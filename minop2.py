@@ -1,5 +1,6 @@
 import numpy as np
 import math
+#the begin of the sub-problem
 def mindelayt(M,s,h):
     M1 = np.where(M == 1)[0]
     M0 = np.where(M == 0)[0]
@@ -14,6 +15,7 @@ def mindelayt(M,s,h):
     beita1 = minRF(M, s, h)
     t = findb(M, s, h, beita1)
     return t
+#to solve the initial value of beta
 def minRF(M,s,h):
     M1 = np.where(M == 1)[0]
     hi = np.array([h[i] for i in M1])
@@ -61,6 +63,7 @@ def minRF(M,s,h):
             tmax.append(miu)
         n = n + 1
     return tmin[n]
+#to solve the T_off
 def minsumtranst(M,s,h,beita):
     M1 = np.where(M == 1)[0]
     hi = np.array([h[i] for i in M1],dtype=np.float64)
@@ -80,6 +83,7 @@ def minsumtranst(M,s,h,beita):
             j = j + 1
         tsum = tsum + T[j-1]
     return tsum
+
 def maxbeita(M,h,s):
     f = 1.5 * (10 ** 7)
     O = 100
@@ -93,6 +97,7 @@ def maxbeita(M,h,s):
     for i in  range(len(M0)):
         beita.append((f * f * O * ki*si[i]) /(u * p* hi[i]))
     return max(beita)
+#to find the lowest local WD
 def maxlocalt(beita1,M,h,s):
     f=1.5*(10**7)
     O=100
@@ -121,7 +126,7 @@ def tao(b,s,h):
     p = 2
     t=math.sqrt((ki * s ** 3 * O ** 3) / (u * p * h * b))
     return t
-#t1>t2二分
+#t1>t2 bisection starts here
 def bisearch1(M,s,h,s0,h0,b1,b2,t1,t2):
     mid=b1
     while b2-b1>10**-6:
@@ -133,7 +138,7 @@ def bisearch1(M,s,h,s0,h0,b1,b2,t1,t2):
             else:
                 b2 = mid
     return mid
-#t1<t2二分
+#t1<t2 bisection starts here
 def bisearch2(M,s,h,s0,h0,b1,b2,t1,t2):
     mid = b1
     while b2-b1>10**-6:
@@ -202,6 +207,7 @@ def finmaxb2(m,beita1,h0,s0,s,h):
     else:
         beita111=0
     return beita111
+#the final comparison
 def findb(M,s,h,beita1):
     t = minsumtranst(M, s, h, beita1)
     M0 = np.where(M == 0)[0]
